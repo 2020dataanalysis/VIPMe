@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">VIPMe</string>
+
+    <string-array name="commands">
+        <item>VIPMe - Blackhawk</item>
+        <item>Man Cave</item>
+    </string-array>
+
+</resources>

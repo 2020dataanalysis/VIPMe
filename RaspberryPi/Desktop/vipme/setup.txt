@@ -1,0 +1,44 @@
+#   Sentinel Server VIP tracking application
+#   PC Server to connect with Android app.
+#   GPS-server.py aka i.py
+#   https://github.com/2020dataanalysis/Sentinel_GPS_Server.git
+#   09/17/2020
+#   Sam Portillo
+
+#   Since many people use iphones this app will not be used.
+#   No looping.
+#   Takes 1 command then exits
+#   This can be used as part of VIPMe to verify clients.
+#   so unknown hackers can not open your garage.
+#   Keep track of other android users.
+
+Socket:
+https://techwithtim.net/tutorials/socket-programming/
+	09/15/2020  →   Since the client is not halted by not receiving a response
+	               a response is not needed. → Enter d.py
+	Works with leave activity, come back, & continues to work with activity.
+
+Key Listener:
+	https://www.codegrepper.com/code-examples/python/how+make+python+listen+for+enter+key
+
+GPIO:
+	http://www.raspberryvi.org/stories/pull-up-and-pull-down-resistors.html
+	https://github.com/raspberrypilearning/physical-computing-guide/blob/master/pull_up_down.md
+	https://raspi.tv/2014/rpi-gpio-update-and-detecting-both-rising-and-falling-edges
+	Basic usage of the Raspberry Pi GPIO pins
+		https://www.youtube.com/watch?v=U6N5pRDOrg4
+
+Address already in use:
+	https://stackoverflow.com/questions/12737293/how-do-i-resolve-the-java-net-bindexception-address-already-in-use-jvm-bind
+	netstat -plten |grep java
+	sudo lsof -t -i:8070
+	1291
+	kill 1291
+
+
+	https://stackoverflow.com/questions/53423781/socket-error-errno-98-address-already-in-use
+ 		sudo netstat -nlp | grep 8069
+		sudo kill -9 10869
+
+10/07/2020:
+	Let this be successful for a few days then add led & second Hall Effect sensor.

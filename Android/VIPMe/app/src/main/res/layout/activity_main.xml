@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/VIP_Site"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VIP"
+        android:textAlignment="center"
+        android:textColor="#3F51B5"
+        android:textSize="32dp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Service"
+        android:onClick="startService"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop Service"
+        android:onClick="stopService"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update UI"
+        android:onClick="updateUI"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event Status"
+        android:onClick="door_Status_event"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:onClick="door_Status"/>
+
+
+
+
+
+
+    <Button
+        android:id="@+id/garage_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Garage" />
+
+    <Switch
+        android:id="@+id/updates_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Receive Server Updates"
+        android:onClick="receive_server_updates"/>
+
+
+
+
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/device_id"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
+
+    <TextView
+        android:id="@+id/messageLog_TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textLongMessage|textMultiLine"
+        android:scrollbars="vertical" />
+</LinearLayout>
