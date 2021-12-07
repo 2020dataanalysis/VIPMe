@@ -94,25 +94,23 @@ public class VIPService extends Service {
 
     String android_id = "";
     String VIP_name = "";
-
+    //    boolean greet_VIP = false;
 
     String VIP_location;
     Boolean receive_server_updates = false;
 
 
-
 //    String m3 = "VIP is almost at BEAR:";
 //    String m2 = "Welcome to BEAR !";
-    String m3 = "VIP is almost home:";
     String m2 = "Welcome to Blackhawk";
-
+    String m3 = "VIP is almost home:";
     Boolean notification_status = false;
 
 
     @Override
     public void onCreate()
     {
-        Log.i(TAG, "onCreate - 103 ******************************** ");
+        Log.i(TAG, "onCreate - 113 ******************************** ");
         if (broadcastReceiver == null) {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
@@ -120,17 +118,12 @@ public class VIPService extends Service {
                     String message = intent.getExtras().get("command").toString();
                     Log.i("SWITCH", "broadcastreceiver 98: " + message );
 
-//                    if (message.equals("get_VIP")){
-//                        new Thread( new Thread3("get_VIP")).start();
-//                    }
-
                     if (message.equals("exit"))
                     {
                         loop = false;
                         Log.i("exit", "broadcastreceiver 101: " + message );
                         stopSelf();
                     }
-
 
                     if (message.equals("Status")) {
                         Log.i(ON1,"onCreate - Status" );
@@ -181,9 +174,9 @@ public class VIPService extends Service {
                 if (!GPS_fix)
                 {
                     GPS_fix = true;
-                    Log.i(TAG, "onCreate - GPS_fix 136  *************************** ");
+//                    Log.i(TAG, "onCreate - GPS_fix 136  *************************** ");
                     update_UI();
-                    Log.i(TAG, "onCreate 139 ******************************** ");
+//                    Log.i(TAG, "onCreate 139 ******************************** ");
 
                     loop = true;
                     Thread1 = new Thread(new Thread1());
@@ -235,45 +228,34 @@ public class VIPService extends Service {
 
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand - 103 ******************************** ");
-        //        VIP_OnSite = false;       // Do you have a reason to reset these 3 values?
-        //        speed_mph_max = 0;
-        //        distance_max = 0;
-
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+        Log.i(TAG, "233 onStartCommand");
         android_id = intent.getStringExtra("android_id");
         VIP_location = intent.getStringExtra("VIP_location");
         new Thread( new Thread3("get_VIP")).start();
+        Log.i(TAG, "onStartCommand - exit");
+        //  The application will crash if there is no valid VIP.
+        return START_STICKY;
+    }
 
 
-
-
-        //    PowerManager pm = (PowerManager)getApplication().getApplicationContext().getSystemService(Context.POWER_SERVICE);
+    void set_VIP_Notification()
+    {
+        Log.i(TAG, "244 set_VIP_notification");
         Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);                                // Does not work.
-        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);                      // Does not work.
-        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);                      // Does not work.
-
-        while ( VIP_name.equals(""))
-        {
-            //  Wait for name from server.
-        }
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Sentinel Security")
-                .setContentText( VIP_name )            // Update with name
+                .setContentText( VIP_name )
                 .setSmallIcon(R.drawable.ic_outline_security_24)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .build();
 
         startForeground(3, notification);
-
-        Log.i(TAG, "ExampleService - 210 https://www.youtube.com/watch?v=bISf8wKt_w8 ");
-        // return START_REDELIVER_INTENT;   //  Auto restart, restart from stopped state.
-        return START_STICKY;                // Auto restart, long running, restart state,       // This may have issues ?
     }
-
 
     @Nullable
     @Override
@@ -327,8 +309,8 @@ public class VIPService extends Service {
     public double checkDistanceTo() {
         final double[] distance = new double[1];        //  Crazy circumvention
 
-//        if (l == null)
-//            return -1;
+        //        if (l == null)
+        //            return -1;
 
         Location locationA = new Location("");
         Location locationB = new Location("");
@@ -365,6 +347,7 @@ public class VIPService extends Service {
     class Thread1 implements Runnable {
         public void run()
         {
+            Log.i(TAG, "349 Thread1 - " );
             new Thread(new Thread3( VIP_OnSite_message )).start();
 
 //            long start = java.time.Instant.now().getEpochSecond();
@@ -383,7 +366,7 @@ public class VIPService extends Service {
                     VIP_OnSite = false;
                     distance_max = 0;
                     speed_mph_max = 0;
-                    Log.i(TAG, "Thread 1 - 360 ******************************** ");
+//                    Log.i(TAG, "Thread 1 - 360 ******************************** ");
                     update_UI();
                     new Thread(new Thread3("Garage_Close")).start();
                     sleepy(20000);
@@ -398,12 +381,12 @@ public class VIPService extends Service {
                     sendOnChannel2(VIP_OnSite_message);
                     distance_max = 0;
                     speed_mph_max = 0;
-                    Log.i(TAG, "Thread 1 - 360 ******************************** ");
+//                    Log.i(TAG, "Thread 1 - 360 ******************************** ");
                     update_UI();
                     new Thread(new Thread3(VIP_OFF_SITE)).start();
                 }
 
-                Log.i(TAG, "Thread 1 - 364 ******************************** ");
+//                Log.i(TAG, "Thread 1 - 364 ******************************** ");
 
                 if (VIP_OnSite == false) {
                     if (pollInterval <= 1000 && distanceTo > 1000)
@@ -441,7 +424,7 @@ public class VIPService extends Service {
                 if (receive_server_updates && end < System.currentTimeMillis() / 1000) {
                     end = System.currentTimeMillis() / 1000 + 10;
                     System.out.println("time");
-                    Log.i(SWITCH, "Time *******************************");
+//                    Log.i(SWITCH, "Time *******************************");
                     new Thread(new Thread3("Status_Event")).start();
                 }
 
@@ -452,10 +435,6 @@ public class VIPService extends Service {
                     new Thread(new Thread3( sammy )).start();
                 }
 
-
-
-
-                    Log.i(TAG, "Thread 1 - 439 ******************************** ");
                 sleepy( pollInterval );
 
             } while (loop);
@@ -499,9 +478,9 @@ public class VIPService extends Service {
 
         @Override
         public void run() {
+            Log.i(TAG, "483 Thread3 - " + this.message );
 
             socket_connection();
-
 
 //            Log.i("ON1", "553 Thread3 - " + output );
 //            boolean b = socket.isConnected();
@@ -512,12 +491,12 @@ public class VIPService extends Service {
             output.println( android_id + "=" + message );
             output.flush();
             showToast(message);
-            Log.i(ON1, "518 " + message );
+            Log.i(TAG, "518 " + message );
 
             sleepy( 300 );
             socket_read();
             socket_disconnect();
-            Log.i(ON1, "530 - Exiting Thread3 *****************" );
+            Log.i(TAG, "530 - Exiting Thread3 *****************" );
         }
     }
 
@@ -608,13 +587,14 @@ public class VIPService extends Service {
             // SERVER_IP = "10.0.0.34";     // PC
             // SERVER_PORT = 3000;          //  PC
             Log.i(TAG, "socket_connection → VIPMe - Blackhawk");
-            SERVER_IP = "73.223.16.32";
+            //            SERVER_IP = "73.223.16.32";
+            SERVER_IP = "24.6.125.77";  //  11.24.2021
             SERVER_PORT = 8070;
         }
         else
         {
             Log.i(TAG, "socket_connection → Man Cave");
-            SERVER_IP = "73.223.16.32";
+            SERVER_IP = "24.6.125.77";  //  11.24.2021
             SERVER_PORT = 5000;
         }
 
@@ -658,10 +638,13 @@ public class VIPService extends Service {
             while ( br.ready() )
             {
                 message = br.readLine();
-                Log.i(ON1, "socket_read - " + message );
+                Log.i(TAG, "socket_read - " + message );
                 String[] arrOfStr = message.split("=", 2);
                 if ( arrOfStr[0].equals("VIP"))
+                {
                     VIP_name = arrOfStr[1];
+                    set_VIP_Notification();          // 11.25.2021
+                }
 
                 if ( arrOfStr[0].equals("notification_status"))
                 {
